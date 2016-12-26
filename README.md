@@ -65,9 +65,9 @@ Now, edit your .csproj file and add:
 
 <Target Name="RemoveHandlersFromWebConfig" AfterTargets="_WebConfigTransform">
   <PropertyGroup>
-    <_SourceWebConfig>$(MSBuildThisFileDirectory)$([MSBuild]::MakeRelative($(MSBuildThisFileDirectory), $(PublishIntermediateOutputPath)))Web.config</_SourceWebConfig>
+    <_SourceWebConfig>$(PublishDir)Web.config</_SourceWebConfig>
     <_XdtTransform>$(MSBuildThisFileDirectory)Web.RemoveHandlers.config</_XdtTransform>
-    <_TargetWebConfig>$(MSBuildThisFileDirectory)$([MSBuild]::MakeRelative($(MSBuildThisFileDirectory), $(PublishIntermediateOutputPath)))Web.config</_TargetWebConfig>
+    <_TargetWebConfig>$(PublishDir)Web.config</_TargetWebConfig>
   </PropertyGroup>
   <Exec Command="dotnet transform-xdt --xml &quot;$(_SourceWebConfig)&quot; --transform &quot;$(_XdtTransform)&quot; --output &quot;$(_TargetWebConfig)&quot;" />
 </Target>
@@ -93,7 +93,7 @@ if you used `dotnet publish`); it should look like this:
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <system.webServer>
-    <aspNetCore processPath="%LAUNCHER_PATH%" arguments="%LAUNCHER_ARGS%" stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout" forwardWindowsAuthToken="false" />
+    <aspNetCore processPath="dotnet" arguments=".\RemoveAspNetCoreHandlerSample.dll" stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout" forwardWindowsAuthToken="false" />
   </system.webServer>
 </configuration>
 ```
@@ -170,7 +170,7 @@ Now, edit your .csproj file and add:
   <PropertyGroup>
     <_SourceWebConfig>$(MSBuildThisFileDirectory)Web.config</_SourceWebConfig>
     <_XdtTransform>$(MSBuildThisFileDirectory)Web.$(Configuration).config</_XdtTransform>
-    <_TargetWebConfig>$(MSBuildThisFileDirectory)$([MSBuild]::MakeRelative($(MSBuildThisFileDirectory), $(PublishIntermediateOutputPath)))Web.config</_TargetWebConfig>
+    <_TargetWebConfig>$(PublishDir)Web.config</_TargetWebConfig>
   </PropertyGroup>
   <Exec 
     Command="dotnet transform-xdt --xml &quot;$(_SourceWebConfig)&quot; --transform &quot;$(_XdtTransform)&quot; --output &quot;$(_TargetWebConfig)&quot;" 
@@ -183,7 +183,8 @@ You need to run `dotnet restore` after making this change to install the tool.
 
 The `<Target>` element defines an MSBuild target that runs *before* the built-in publish target that adds 
 the `aspNetCore` handler (i.e. `BeforeTargets="_WebConfigTransform"`). We want this target to run earlier
-because the built-in target (`_WebConfigTransform`) formats the published Web.config nicely indented.
+because the built-in target (`_WebConfigTransform`) then replaces the `<aspNetCore>` element `processPath` and 
+`arguments` attribute placeholders with actual values, and also formats the published Web.config nicely indented.
 
 Our `ApplyXdtTransform` target invokes the `dotnet-transform-xdt` tool, 
 applying the transform file for the active publish configuration (`Web.$(Configuration).config`) to the `Web.config` file 

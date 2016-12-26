@@ -9,9 +9,9 @@
   </ItemGroup>
   <Target Name="RemoveHandlersFromWebConfig" AfterTargets="_WebConfigTransform">
     <PropertyGroup>
-      <_SourceWebConfig>$(MSBuildThisFileDirectory)$([MSBuild]::MakeRelative($(MSBuildThisFileDirectory), $(PublishIntermediateOutputPath)))Web.config</_SourceWebConfig>
+      <_SourceWebConfig>$(PublishDir)Web.config</_SourceWebConfig>
       <_XdtTransform>$(MSBuildThisFileDirectory)Web.RemoveHandlers.config</_XdtTransform>
-      <_TargetWebConfig>$(MSBuildThisFileDirectory)$([MSBuild]::MakeRelative($(MSBuildThisFileDirectory), $(PublishIntermediateOutputPath)))Web.config</_TargetWebConfig>
+      <_TargetWebConfig>$(PublishDir)Web.config</_TargetWebConfig>
     </PropertyGroup>
     <Exec Command="dotnet transform-xdt --xml &quot;$(_SourceWebConfig)&quot; --transform &quot;$(_XdtTransform)&quot; --output &quot;$(_TargetWebConfig)&quot;" />
   </Target>
