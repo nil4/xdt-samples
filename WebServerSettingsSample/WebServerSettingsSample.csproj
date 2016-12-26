@@ -5,5 +5,14 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.App" Version="1.0.1" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="1.2.0-msbuild-preview4-004233" />
   </ItemGroup>
+  <Target Name="ApplyXdtTransform" BeforeTargets="_WebConfigTransform">
+    <PropertyGroup>
+      <_SourceWebConfig>$(MSBuildThisFileDirectory)Web.config</_SourceWebConfig>
+      <_XdtTransform>$(MSBuildThisFileDirectory)Web.$(Configuration).config</_XdtTransform>
+      <_TargetWebConfig>$(MSBuildThisFileDirectory)$([MSBuild]::MakeRelative($(MSBuildThisFileDirectory), $(PublishIntermediateOutputPath)))Web.config</_TargetWebConfig>
+    </PropertyGroup>
+    <Exec Command="dotnet transform-xdt --xml &quot;$(_SourceWebConfig)&quot; --transform &quot;$(_XdtTransform)&quot; --output &quot;$(_TargetWebConfig)&quot;" Condition="Exists('$(_XdtTransform)')" />
+  </Target>
 </Project>
