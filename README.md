@@ -60,12 +60,12 @@ Now, edit your .csproj file and add:
 
 ```xml
 <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="1.2.0-msbuild-preview4-004233" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="1.2.0-msbuild-preview4-004234" />
 </ItemGroup>
 
 <Target Name="RemoveHandlersFromWebConfig" AfterTargets="_WebConfigTransform">
   <PropertyGroup>
-    <_SourceWebConfig>$(MSBuildThisFileDirectory)Web.config</_SourceWebConfig>
+    <_SourceWebConfig>$(MSBuildThisFileDirectory)$([MSBuild]::MakeRelative($(MSBuildThisFileDirectory), $(PublishIntermediateOutputPath)))Web.config</_SourceWebConfig>
     <_XdtTransform>$(MSBuildThisFileDirectory)Web.RemoveHandlers.config</_XdtTransform>
     <_TargetWebConfig>$(MSBuildThisFileDirectory)$([MSBuild]::MakeRelative($(MSBuildThisFileDirectory), $(PublishIntermediateOutputPath)))Web.config</_TargetWebConfig>
   </PropertyGroup>
@@ -79,8 +79,8 @@ run `dotnet restore` after making this change to install the tool from nuget.org
 
 The `<Target>` element defines an MSBuild target that runs *after* the built-in publish target that adds
 the `aspNetCore` handler (i.e. `AfterTargets="_WebConfigTransform"`). It invokes the `dotnet-transform-xdt`
-tool, applying the file we defined earlier (`Web.RemoveHandlers.config`) to the `Web.config` file in your project,
-removing the `<handlers>` section, and then writing the transformed result in your publish output folder.
+tool, applying the file we defined earlier (`Web.RemoveHandlers.config`) to the `Web.config` file in the publish folder,
+removing the `<handlers>` section, and then writing the transformed result back to the publish folder.
 
 Note that the `Web.config` file in your project is not changed; only the published file has the transformation
 applied to it. 
@@ -163,7 +163,7 @@ Now, edit your .csproj file and add:
 
 ```xml
 <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="1.2.0-msbuild-preview4-004233" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="1.2.0-msbuild-preview4-004234" />
 </ItemGroup>
 
 <Target Name="ApplyXdtTransform" BeforeTargets="_WebConfigTransform">

@@ -5,11 +5,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.App" Version="1.0.1" />
-    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="1.2.0-msbuild-preview4-004233" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="1.2.0-msbuild-preview4-004234" />
   </ItemGroup>
   <Target Name="RemoveHandlersFromWebConfig" AfterTargets="_WebConfigTransform">
     <PropertyGroup>
-      <_SourceWebConfig>$(MSBuildThisFileDirectory)Web.config</_SourceWebConfig>
+      <_SourceWebConfig>$(MSBuildThisFileDirectory)$([MSBuild]::MakeRelative($(MSBuildThisFileDirectory), $(PublishIntermediateOutputPath)))Web.config</_SourceWebConfig>
       <_XdtTransform>$(MSBuildThisFileDirectory)Web.RemoveHandlers.config</_XdtTransform>
       <_TargetWebConfig>$(MSBuildThisFileDirectory)$([MSBuild]::MakeRelative($(MSBuildThisFileDirectory), $(PublishIntermediateOutputPath)))Web.config</_TargetWebConfig>
     </PropertyGroup>
