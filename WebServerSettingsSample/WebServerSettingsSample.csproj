@@ -4,10 +4,9 @@
     <TargetFramework>netcoreapp1.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NETCore.App" Version="1.0.1" />
     <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="1.2.0-msbuild-preview4-004234" />
   </ItemGroup>
-  <Target Name="ApplyXdtTransform" BeforeTargets="_WebConfigTransform">
+  <Target Name="ApplyXdtTransform" BeforeTargets="_TransformWebConfig">
     <PropertyGroup>
       <_SourceWebConfig>$(MSBuildThisFileDirectory)Web.config</_SourceWebConfig>
       <_XdtTransform>$(MSBuildThisFileDirectory)Web.$(Configuration).config</_XdtTransform>
