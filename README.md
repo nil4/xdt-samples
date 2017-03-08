@@ -14,12 +14,6 @@ This repository contains samples for two use cases:
 
 Read more details below, or see the commit history for each of the sample app sub-folders.
 
-**Warning**: the MSBuild/csproj tooling and Visual Studio 2017 is still in flux, and these samples
-are based on my own experience with VS **15.0.26206.0 D15REL** (RC4) and CLI **1.0.0-rc4-004771**.
-I have not tested other versions and it is possible that this approach will stop working with
-future updates. Until the tooling is final, I will not be able to provide support. I am, however,
-interested in your experience and feedback.
-
 ### <a name="remove-handlers"></a> 1. Remove system.webServer/handlers from Web.config
 
 When publishing an ASP.NET Core project, either from the command line (`dotnet publish`) or inside Visual Studio,
@@ -60,7 +54,7 @@ Now, edit your .csproj file and add:
 
 ```xml
 <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="1.2.0-msbuild-preview4-004234" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="1.2.0" />
 </ItemGroup>
 
 <Target Name="RemoveHandlersFromWebConfig" AfterTargets="_TransformWebConfig">
@@ -163,7 +157,7 @@ Now, edit your .csproj file and add:
 
 ```xml
 <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="1.2.0-msbuild-preview4-004234" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="1.2.0" />
 </ItemGroup>
 
 <Target Name="ApplyXdtTransform" BeforeTargets="_TransformWebConfig">
