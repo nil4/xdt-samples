@@ -54,7 +54,7 @@ Now, edit your .csproj file and add:
 
 ```xml
 <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="1.2.0" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="2.0.0-preview1" />
 </ItemGroup>
 
 <Target Name="RemoveHandlersFromWebConfig" AfterTargets="_TransformWebConfig">
@@ -80,7 +80,7 @@ Note that the `Web.config` file in your project is not changed; only the publish
 applied to it.
 
 To test this, run `dotnet publish` from your project folder (or publish your project from within
-Visual Studio 2017). Examine the `Web.config` file in your publish folder (`bin\Debug\netcoreapp1.0\publish\Web.config`
+Visual Studio 2017). Examine the `Web.config` file in your publish folder (`bin\Debug\netcoreapp2.0\publish\Web.config`
 if you used `dotnet publish`); it should look like this:
 
 ```xml
@@ -157,7 +157,7 @@ Now, edit your .csproj file and add:
 
 ```xml
 <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="1.2.0" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="2.0.0-preview1" />
 </ItemGroup>
 
 <Target Name="ApplyXdtTransform" BeforeTargets="_TransformWebConfig">
@@ -190,11 +190,11 @@ It's worth noting that any other MSBuild property (built-in or passed through `d
 can be used to determine the XDT transform file to apply.
 
 To test this, run `dotnet publish` from your project folder (by default the `Debug` configuration is used and thus
-no transformation is applied). Examine the `Web.config` file in your publish folder (`bin\Debug\netcoreapp1.0\publish\Web.config`);
+no transformation is applied). Examine the `Web.config` file in your publish folder (`bin\Debug\netcoreapp2.0\publish\Web.config`);
 it will be the same as `Web.config` in your project.
 
 Now publish using `dotnet publish -c Release` and examine the `Web.config` file in your publish folder
-(`bin\Release\netcoreapp1.0\publish\Web.config`); it should contain the production settings,
+(`bin\Release\netcoreapp2.0\publish\Web.config`); it should contain the production settings,
 including the comments we added:
 
 ```xml
