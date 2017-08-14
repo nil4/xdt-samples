@@ -54,7 +54,7 @@ Now, edit your .csproj file and add:
 
 ```xml
 <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="2.0.0-preview1" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="2.0.0" />
 </ItemGroup>
 
 <Target Name="RemoveHandlersFromWebConfig" AfterTargets="_TransformWebConfig">
@@ -157,7 +157,7 @@ Now, edit your .csproj file and add:
 
 ```xml
 <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="2.0.0-preview1" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="2.0.0" />
 </ItemGroup>
 
 <Target Name="ApplyXdtTransform" BeforeTargets="_TransformWebConfig">
